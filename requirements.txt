@@ -1,5 +1,5 @@
 Flask
-numpy
+flask_cors
 pandas
 scikit-learn==1.5.1
 joblib
