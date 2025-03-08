@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+        input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Heart Disease Prediction</h2>
+    <form id="predictionForm">
+        <label>Age: <input type="number" id="age" required></label>
+        <label>Cholesterol: <input type="number" id="cholesterol" required></label>
+        <label>Blood Pressure: <input type="number" id="bp" required></label>
+        <button type="button" onclick="predict()">Predict</button>
+    </form>
+    <h3 id="result"></h3>
+
+    <script>
+        function predict() {
+            const data = {
+                age: document.getElementById("age").value,
+                cholesterol: document.getElementById("cholesterol").value,
+                bp: document.getElementById("bp").value
+            };
+            
+            fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "Prediction: " + data.prediction;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("result").innerText = "Error making prediction.";
+            });
+        }
+    </script>
+</body>
+</html>
